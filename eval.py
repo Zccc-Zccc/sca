@@ -35,10 +35,15 @@ else:
 # 加载数据集
 data_path = '/root/senteval_cn/'
 
+# datasets = {
+#     '%s-%s' % (task_name, f):
+#     load_data('%s%s/%s.%s.data' % (data_path, task_name, task_name, f))
+#     for f in ['train', 'valid', 'test']
+# }
+
 datasets = {
-    '%s-%s' % (task_name, f):
-    load_data('%s%s/%s.%s.data' % (data_path, task_name, task_name, f))
-    for f in ['train', 'valid', 'test']
+    '%s' % (task_name):
+    load_data('./test.csv')
 }
 
 # bert配置
@@ -87,33 +92,54 @@ else:
 
 # 语料向量化
 all_names, all_weights, all_vecs, all_labels = [], [], [], []
+# for name, data in datasets.items():
+#     a_vecs, b_vecs, labels = convert_to_vecs(data, tokenizer, encoder, maxlen)
+#     all_names.append(name)
+#     all_weights.append(len(data))
+#     all_vecs.append((a_vecs, b_vecs))
+#     all_labels.append(labels)
+
 for name, data in datasets.items():
-    a_vecs, b_vecs, labels = convert_to_vecs(data, tokenizer, encoder, maxlen)
+    a_vecs = convert_to_vecs(data, tokenizer, encoder, maxlen)
     all_names.append(name)
     all_weights.append(len(data))
-    all_vecs.append((a_vecs, b_vecs))
-    all_labels.append(labels)
+    all_vecs.append(a_vecs)
+    # all_labels.append(labels)
+
+
 
 # 计算变换矩阵和偏置项
 if n_components == 0:
     kernel, bias = None, None
 else:
-    kernel, bias = compute_kernel_bias([v for vecs in all_vecs for v in vecs])
+    # kernel, bias = compute_kernel_bias([v for vecs in all_vecs for v in vecs])
+    # kernel = kernel[:, :n_components]
+    kernel, bias = compute_kernel_bias([vecs for vecs in all_vecs])
     kernel = kernel[:, :n_components]
 
 # 变换，标准化，相似度，相关系数
-all_corrcoefs = []
-for (a_vecs, b_vecs), labels in zip(all_vecs, all_labels):
+afterNormalize = []
+# for (a_vecs, b_vecs), labels in zip(all_vecs, all_labels):
+for a_vecs in all_vecs:
     a_vecs = transform_and_normalize(a_vecs, kernel, bias)
-    b_vecs = transform_and_normalize(b_vecs, kernel, bias)
-    sims = (a_vecs * b_vecs).sum(axis=1)
-    corrcoef = compute_corrcoef(labels, sims)
-    all_corrcoefs.append(corrcoef)
+    afterNormalize.append(a_vecs)
+    # b_vecs = transform_and_normalize(b_vecs, kernel, bias)
+#     sims = (a_vecs * b_vecs).sum(axis=1)
+#     corrcoef = compute_corrcoef(labels, sims)
+#     all_corrcoefs.append(corrcoef)
 
-all_corrcoefs.extend([
-    np.average(all_corrcoefs),
-    np.average(all_corrcoefs, weights=all_weights)
-])
+with codecs.open("./afterWhitening.csv", 'w','utf-8') as f:
+    for line in all_vecs:
+        f.write(line + "\n")
 
-for name, corrcoef in zip(all_names + ['avg', 'w-avg'], all_corrcoefs):
-    print('%s: %s' % (name, corrcoef))
+with codecs.open("./afterNormalize.csv", 'w','utf-8') as f:
+    for line in afterNormalize:
+        f.write(line + "\n")
+
+# all_corrcoefs.extend([
+#     np.average(all_corrcoefs),
+#     np.average(all_corrcoefs, weights=all_weights)
+# ])
+
+# for name, corrcoef in zip(all_names + ['avg', 'w-avg'], all_corrcoefs):
+#     print('%s: %s' % (name, corrcoef))

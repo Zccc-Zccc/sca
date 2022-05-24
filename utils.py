@@ -11,6 +11,40 @@ from bert4keras.snippets import open
 from bert4keras.snippets import sequence_padding
 from keras.models import Model
 
+def load_my_data(filename):
+    """
+    加载需要生成的句向量数据
+    格式：(文本)
+    """
+    D = []
+    with open(filename,encoding="uft-8") as f:
+        for l in f:
+            D.append(l)
+    return D
+
+def my_convert_to_ids(data, tokenizer, maxlen=64):
+    """转换文本数据为id形式
+    单条
+    """
+    a_token_ids = []
+    for d in tqdm(data):
+        token_ids = tokenizer.encode(d, maxlen=maxlen)[0]
+        a_token_ids.append(token_ids)
+    a_token_ids = sequence_padding(a_token_ids)
+    return a_token_ids
+
+
+def my_convert_to_vecs(data, tokenizer, encoder, maxlen=64):
+    """转换文本数据为向量形式
+    """
+    a_token_ids = convert_to_ids(data, tokenizer, maxlen)
+    a_vecs = encoder.predict([a_token_ids,
+                              np.zeros_like(a_token_ids)],
+                             verbose=True)
+    return a_vecs
+
+
+
 
 def load_data(filename):
     """加载数据（带标签）
