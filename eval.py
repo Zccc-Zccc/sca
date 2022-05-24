@@ -4,6 +4,7 @@
 from utils import *
 import sys
 import jieba
+import codecs
 
 jieba.initialize()
 
