@@ -19,7 +19,7 @@ def load_my_data(filename):
     D = []
     with open(filename,encoding="utf-8") as f:
         for l in f:
-            D.append(l)
+            D.append(l.replace('\n',''))
     return D
 
 def my_convert_to_ids(data, tokenizer, maxlen=64):
