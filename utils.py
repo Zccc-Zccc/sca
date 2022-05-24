@@ -17,7 +17,7 @@ def load_my_data(filename):
     格式：(文本)
     """
     D = []
-    with open(filename,encoding="uft-8") as f:
+    with open(filename,encoding="utf-8") as f:
         for l in f:
             D.append(l)
     return D
