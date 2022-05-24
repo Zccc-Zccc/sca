@@ -14,7 +14,7 @@ assert model_type in [
     'RoBERTa-large', 'NEZHA-large', 'SimBERT', 'SimBERT-tiny', 'SimBERT-small'
 ]
 assert pooling in ['first-last-avg', 'last-avg', 'cls', 'pooler']
-assert task_name in ['ATEC', 'BQ', 'LCQMC', 'PAWSX', 'STS-B']
+assert task_name in ['ATEC', 'BQ', 'LCQMC', 'PAWSX', 'STS-B' , 'myjob']
 
 n_components = int(n_components)
 if n_components < 0:
