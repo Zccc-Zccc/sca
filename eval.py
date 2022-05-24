@@ -101,11 +101,12 @@ all_names, all_weights, all_vecs, all_labels = [], [], [], []
 
 
 ########
-# for name, data in datasets.items():
-#     # a_vecs = my_convert_to_vecs(data, tokenizer, encoder, maxlen)
-#     # all_names.append(name)
-#     # all_weights.append(len(data))
-#     # all_vecs.append(a_vecs)
+for name, data in datasets.items():
+    print(data)
+    # a_vecs = my_convert_to_vecs(data, tokenizer, encoder, maxlen)
+    # all_names.append(name)
+    # all_weights.append(len(data))
+    # all_vecs.append(a_vecs)
 
 
 #     # all_labels.append(labels)
