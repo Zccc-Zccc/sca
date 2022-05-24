@@ -37,7 +37,7 @@ def my_convert_to_ids(data, tokenizer, maxlen=64):
 def my_convert_to_vecs(data, tokenizer, encoder, maxlen=64):
     """转换文本数据为向量形式
     """
-    a_token_ids = convert_to_ids(data, tokenizer, maxlen)
+    a_token_ids = my_convert_to_ids(data, tokenizer, maxlen)
     a_vecs = encoder.predict([a_token_ids,
                               np.zeros_like(a_token_ids)],
                              verbose=True)

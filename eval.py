@@ -100,7 +100,7 @@ all_names, all_weights, all_vecs, all_labels = [], [], [], []
 #     all_labels.append(labels)
 
 for name, data in datasets.items():
-    a_vecs = convert_to_vecs(data, tokenizer, encoder, maxlen)
+    a_vecs = my_convert_to_vecs(data, tokenizer, encoder, maxlen)
     all_names.append(name)
     all_weights.append(len(data))
     all_vecs.append(a_vecs)
