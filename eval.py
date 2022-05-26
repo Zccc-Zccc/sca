@@ -134,13 +134,15 @@ for a_vecs in all_vecs:
 #     corrcoef = compute_corrcoef(labels, sims)
 #     all_corrcoefs.append(corrcoef)
 
-with codecs.open("./afterWhitening.csv", 'w','utf-8') as f:
-    for line in all_vecs:
-        f.write(line + "\n")
+np.savetxt("text_vectors.txt",all_vecs)
+np.savetxt("text_vectors_afterNormalize.txt",afterNormalize)
+# with codecs.open("./afterWhitening.csv", 'w','utf-8') as f:
+#     for line in all_vecs:
+#         f.write(line + "\n")
 
-with codecs.open("./afterNormalize.csv", 'w','utf-8') as f:
-    for line in afterNormalize:
-        f.write(line + "\n")
+# with codecs.open("./afterNormalize.csv", 'w','utf-8') as f:
+#     for line in afterNormalize:
+#         f.write(line + "\n")
 ######
 
 
