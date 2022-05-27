@@ -156,7 +156,8 @@ def transform_and_normalize(vecs, kernel=None, bias=None):
     if not (kernel is None or bias is None):
         vecs = (vecs + bias).dot(kernel)
     norms = (vecs**2).sum(axis=1, keepdims=True)**0.5
-    return vecs / np.clip(norms, 1e-8, np.inf)
+    # return  vecs / np.clip(norms, 1e-8, np.inf)
+    return  vecs , vecs / np.clip(norms, 1e-8, np.inf)
 
 
 def compute_corrcoef(x, y):
