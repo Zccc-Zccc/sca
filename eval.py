@@ -44,7 +44,7 @@ data_path = '/root/senteval_cn/'
 
 datasets = {
     '%s' % (task_name):
-    load_my_data('./test.csv')
+    load_my_data('./new_test.csv')
 }
 
 # bert配置
