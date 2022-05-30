@@ -1,27 +1,33 @@
 import matplotlib.pyplot as plt
+from sklearn import cluster
 from sklearn.cluster import KMeans
 import numpy as np
 from sklearn.decomposition import PCA
 import codecs
 corpus = []
-with codecs.open("./symptom.csv","r","utf-8") as f:
+with codecs.open("./new_symptom.csv","r","utf-8") as f:
     corpus = f.readlines()
-km = KMeans(n_clusters=10)
+clusters = 10
+km = KMeans(n_clusters=clusters)
 pca = PCA(n_components=2)
 
-filename = ["text_vectors_bert","text_vectors_transform_384","text_vectors_afterNormalize_384","text_vectors_transform_256","text_vectors_afterNormalize_256"]
+filename = ["text_vectors_bert"]
+poolings = ['first-last-avg', 'last-avg', 'cls', 'pooler']
 
 for file in filename:
-    vectors =  np.loadtxt("%s.txt" %file)
-    vectors_ = pca.fit_transform(vectors)   #降维到二维
-    y_ = km.fit_predict(vectors_)       #聚类
-    label = km.labels_
-    # plt.rcParams['font.sans-serif'] = ['FangSong']
-    # plt.scatter(vectors_[:,0],vectors_[:, 1],s = 3 , c=y_)   #将点画在图上
-    for i in range(len(corpus)):    #给每个点进行标注
-        # plt.annotate(s=corpus[i], xy=(vectors_[:, 0][i], vectors_[:, 1][i]),
-        #              xytext=(vectors_[:, 0][i] + 0.1, vectors_[:, 1][i] + 0.1))
-        f = open('./%s/label_' +str(label[i])  %file , 'a')
-        f.write(corpus[i])
-        f.close
-    
+    for pooling in poolings:
+        vectors =  np.loadtxt("./bert/%s/%s.txt" %(pooling , file))
+        vectors_ = pca.fit_transform(vectors)   #降维到二维
+        y_ = km.fit_predict(vectors_)       #聚类
+        label = km.labels_
+        # plt.rcParams['font.sans-serif'] = ['FangSong']
+        
+        for i in range(len(corpus)):    #给每个点进行标注
+            # plt.annotate(s=corpus[i], xy=(vectors_[:, 0][i], vectors_[:, 1][i]),
+            #              xytext=(vectors_[:, 0][i] + 0.1, vectors_[:, 1][i] + 0.1))
+            f = open('./bert/%s/label_%s.txt'  %( pooling , str(label[i])), 'a')
+            f.write(corpus[i])
+            f.close
+        plt.scatter(vectors_[:,0],vectors_[:, 1],s = 3 , c=y_)   #将点画在图上
+        plt.savefig(fname= "%s_%s_bert" % (clusters,pooling))
+        plt.cla()

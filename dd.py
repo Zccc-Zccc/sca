@@ -9,7 +9,7 @@ import codecs
 jieba.initialize()
 
 # 基本参数
-model_type, pooling  = "BERT" , "cls"
+model_type  = "BERT" 
 # assert model_type in [
 #     'BERT', 'RoBERTa', 'NEZHA', 'WoBERT', 'RoFormer', 'BERT-large',
 #     'RoBERTa-large', 'NEZHA-large', 'SimBERT', 'SimBERT-tiny', 'SimBERT-small'
@@ -89,18 +89,16 @@ for pooling in poolings:
 
     #     # all_labels.append(labels)
 
-
-
     # 计算变换矩阵和偏置项
 
     kernel, bias = compute_kernel_bias([vecs for vecs in all_vecs])
     for c in n_components:
-        kernel = kernel[:, :c]        
+        cur_kernel = kernel[:, :c]        
         # 变换，标准化，相似度，相关系数
         afterNormalize = []
         transformVec = []
         for a_vecs in all_vecs:
-            vecs , afterNormalizeVecs = transform_and_normalize(a_vecs, kernel, bias)
+            vecs , afterNormalizeVecs = transform_and_normalize(a_vecs, cur_kernel, bias)
             afterNormalize.append(afterNormalizeVecs)
             transformVec.append(vecs)
 
@@ -108,7 +106,7 @@ for pooling in poolings:
         #     sims = (a_vecs * b_vecs).sum(axis=1)
         #     corrcoef = compute_corrcoef(labels, sims)
         #     all_corrcoefs.append(corrcoef)
-        np.savetxt("./%s/%s/text_vectors_transform.txt"%(str(c) , pooling),afterNormalize[0])
+        np.savetxt("./%s/%s/text_vectors_transform.txt"%(str(c) , pooling),transformVec[0])
         np.savetxt("./%s/%s/text_vectors_afterNormalize.txt"%(str(c) , pooling),afterNormalize[0])
     np.savetxt("./bert/%s/text_vectors_bert.txt" %pooling,all_vecs[0])
 

@@ -5,7 +5,7 @@ import numpy as np
 from sklearn.decomposition import PCA
 import codecs
 corpus = []
-with codecs.open("./new_syptom.csv","r","utf-8") as f:
+with codecs.open("./new_symptom.csv","r","utf-8") as f:
     corpus = f.readlines()
 clusters = 10
 km = KMeans(n_clusters=clusters)
@@ -26,7 +26,7 @@ for c in components:
             for i in range(len(corpus)):    #给每个点进行标注
                 # plt.annotate(s=corpus[i], xy=(vectors_[:, 0][i], vectors_[:, 1][i]),
                 #              xytext=(vectors_[:, 0][i] + 0.1, vectors_[:, 1][i] + 0.1))
-                f = open('./%s/%s/%s/label_%s'  %(str(c), pooling , file ,str(label[i])) , 'a')
+                f = open('./%s/%s/%s/label_%s.txt'  %(str(c), pooling , file ,str(label[i])) , 'a')
                 f.write(corpus[i])
                 f.close
             plt.rcParams['font.sans-serif'] = ['FangSong']
