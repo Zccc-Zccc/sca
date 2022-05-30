@@ -6,7 +6,7 @@ import codecs
 corpus = []
 with codecs.open("./new_text.csv","r","utf-8") as f:
     corpus = f.readlines()
-km = KMeans(n_clusters=5)
+km = KMeans(n_clusters=10)
 pca = PCA(n_components=2)
 
 filename = ["text_vectors_bert","text_vectors_transform_384","text_vectors_afterNormalize_384","text_vectors_transform_256","text_vectors_afterNormalize_256"]

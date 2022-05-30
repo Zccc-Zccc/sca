@@ -34,7 +34,7 @@ task_name = 'dd'
 
 datasets = {
     '%s' % (task_name):
-    load_my_data('./new_test.csv')
+    load_my_data('./symptom.csv')
 }
 
 # bert配置
