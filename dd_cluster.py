@@ -9,7 +9,7 @@ with codecs.open("./new_symptom.csv","r","utf-8") as f:
     corpus = f.readlines()
 clusters = 10
 km = KMeans(n_clusters=clusters)
-pca = PCA(n_components=2)
+
 
 filename = ["text_vectors_transform","text_vectors_afterNormalize"]
 components = [384 , 256 , 768]
@@ -18,6 +18,7 @@ for c in components:
     for pooling in poolings:
         for file in filename:
             vectors =  np.loadtxt("./%s/%s/%s.txt" %(str(c), pooling ,file))
+            pca = PCA(n_components=50 , svd_solver='full')
             vectors_ = pca.fit_transform(vectors)   #降维到二维
             y_ = km.fit_predict(vectors_)       #聚类
             label = km.labels_

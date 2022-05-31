@@ -106,9 +106,9 @@ for pooling in poolings:
         #     sims = (a_vecs * b_vecs).sum(axis=1)
         #     corrcoef = compute_corrcoef(labels, sims)
         #     all_corrcoefs.append(corrcoef)
-        np.savetxt("./%s/%s/text_vectors_transform.txt"%(str(c) , pooling),transformVec[0])
-        np.savetxt("./%s/%s/text_vectors_afterNormalize.txt"%(str(c) , pooling),afterNormalize[0])
-    np.savetxt("./bert/%s/text_vectors_bert.txt" %pooling,all_vecs[0])
+        np.savetxt("./vectors/%s/%s/text_vectors_transform.txt"%(str(c) , pooling),transformVec[0])
+        np.savetxt("./vectors/%s/%s/text_vectors_afterNormalize.txt"%(str(c) , pooling),afterNormalize[0])
+    np.savetxt("./vectors/bert/%s/text_vectors_bert.txt" %pooling,all_vecs[0])
 
 
 # with codecs.open("./afterWhitening.csv", 'w','utf-8') as f:

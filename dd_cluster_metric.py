@@ -18,13 +18,13 @@ c = 384
 
 for pooling in poolings:
     for file in filename:
-        vectors =  np.loadtxt("./%s/%s/%s.txt" %(str(c), pooling ,file))
-        pca = PCA(n_components=0.9 , svd_solver="full")
+        vectors =  np.loadtxt("./vectors/%s/%s/%s.txt" %(str(c), pooling ,file))
+        pca = PCA(n_components=50)
         vectors_ = pca.fit_transform(vectors)   #降维到二维
         chScore = []
         scScore = []
         for i in range(21):
-            if i < 5:
+            if i < 11:
                 continue
             km = KMeans(n_clusters=i)
             y_ = km.fit_predict(vectors_)       #聚类
