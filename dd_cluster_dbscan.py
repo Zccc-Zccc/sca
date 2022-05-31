@@ -18,7 +18,7 @@ for c in components:
             vectors =  np.loadtxt("./vectors/%s/%s/%s.txt" %(str(c), pooling ,file))
             pca = PCA(n_components=2)
             vectors_ = pca.fit_transform(vectors)   #降维到二维
-            r = 0.2
+            r = 0.02
             db = DBSCAN(eps=r)
             y_ = db.fit_predict(vectors_)       #聚类
             label = db.labels_
@@ -36,5 +36,5 @@ for c in components:
             #     # plt.annotate(s=corpus[i], xy=(vectors_[:, 0][i], vectors_[:, 1][i]),
             #     #              xytext=(vectors_[:, 0][i] + 0.1, vectors_[:, 1][i] + 0.1))
             #     plt.scatter(vectors_[:, 0][i], vectors_[:, 1][i], s = 3)
-            plt.savefig(fname = ("./dbscan/%s/%s/%s_%s" %(str(c), pooling, r ,file)))
+            plt.savefig(fname = ("./dbscan/%s_%s_%s_%s.jpg" %(str(c), pooling, r ,file)))
             plt.cla()
