@@ -14,11 +14,12 @@ pca = PCA(n_components=2)
 filename = ["text_vectors_transform","text_vectors_afterNormalize"]
 components = [384 , 256 , 768]
 poolings = ['first-last-avg', 'last-avg', 'cls', 'pooler']
-c = 256
+c = 384
 
 for pooling in poolings:
     for file in filename:
         vectors =  np.loadtxt("./%s/%s/%s.txt" %(str(c), pooling ,file))
+        pca = PCA(n_components=0.9 , svd_solver="full")
         vectors_ = pca.fit_transform(vectors)   #降维到二维
         chScore = []
         scScore = []
@@ -29,11 +30,11 @@ for pooling in poolings:
             y_ = km.fit_predict(vectors_)       #聚类
             chScore.append(metrics.calinski_harabaz_score(vectors_,y_))
             scScore.append(silhouette_score(vectors_,km.labels_))
-        with codecs.open("./%s/%s/%s/scScore.txt" %(str(c) , pooling , file) , 'a' , 'utf-8') as f:
+        with codecs.open("./scScore_%s.txt"  %(file) , 'a' , 'utf-8') as f:
             for i in range(len(scScore)):
-                f.write("clusters_%s sc score : %s" %(str(i+5), scScore[i]))
-        with codecs.open("./%s/%s/%s/chScore.txt" %(str(c) , pooling , file) , 'a' , 'utf-8') as f:
+                f.write("%s_clusters_%s sc score : %s" + '\n' %(pooling,str(i+5), scScore[i]))
+        with codecs.open("./chScore_%s.txt" %(file) , 'a' , 'utf-8') as f:
             for i in range(len(chScore)):
-                f.write("clusters_%s ch score : %s" %(str(i+5), chScore[i]))
+                f.write("%s_clusters_%s ch score : %s" + '\n' %(pooling,str(i+5), chScore[i]))
             
             
