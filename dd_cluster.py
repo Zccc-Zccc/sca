@@ -26,8 +26,8 @@ for c in components:
             for i in range(len(corpus)):    #给每个点进行标注
                 # plt.annotate(s=corpus[i], xy=(vectors_[:, 0][i], vectors_[:, 1][i]),
                 #              xytext=(vectors_[:, 0][i] + 0.1, vectors_[:, 1][i] + 0.1))
-                f = open('./%s/%s/%s/label_%s.txt'  %(str(c), pooling , file ,str(label[i])) , 'a')
-                f.write(corpus[i])
+                f = open('./kmeans/%s/%s/%s/label_%s.txt'  %(str(c), pooling , file ,str(label[i])) , 'a')
+                f.write(corpus[i]+","+vectors_[i][0]+","+vectors_[i][1] +'\n')
                 f.close
             plt.rcParams['font.sans-serif'] = ['FangSong']
             plt.scatter(vectors_[:,0],vectors_[:, 1],s = 3 , c=y_)   #将点画在图上
@@ -35,5 +35,5 @@ for c in components:
             #     # plt.annotate(s=corpus[i], xy=(vectors_[:, 0][i], vectors_[:, 1][i]),
             #     #              xytext=(vectors_[:, 0][i] + 0.1, vectors_[:, 1][i] + 0.1))
             #     plt.scatter(vectors_[:, 0][i], vectors_[:, 1][i], s = 3)
-            plt.savefig(fname = ("./%s/%s/%s_%s" %(str(c), pooling, clusters ,file)))
+            plt.savefig(fname = ("./kmeans/%s/%s/%s_%s" %(str(c), pooling, clusters ,file)))
             plt.cla()
