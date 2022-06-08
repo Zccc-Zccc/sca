@@ -15,7 +15,7 @@ poolings = ['first-last-avg', 'last-avg', 'cls', 'pooler']
 for c in components:
     for pooling in poolings:
         for file in filename:
-            vectors =  np.loadtxt("./%s/%s/%s.txt" %(str(c), pooling ,file))
+            vectors =  np.loadtxt("./vectors/%s/%s/%s.txt" %(str(c), pooling ,file))
             pca = PCA(n_components=2)
             vectors_ = pca.fit_transform(vectors)   #降维到二维
             km = KMeans(n_clusters=clusters)
@@ -27,7 +27,7 @@ for c in components:
                 # plt.annotate(s=corpus[i], xy=(vectors_[:, 0][i], vectors_[:, 1][i]),
                 #              xytext=(vectors_[:, 0][i] + 0.1, vectors_[:, 1][i] + 0.1))
                 f = open('./kmeans/%s/%s/%s/label_%s.txt'  %(str(c), pooling , file ,str(label[i])) , 'a')
-                f.write(corpus[i]+","+vectors_[i][0]+","+vectors_[i][1] +'\n')
+                f.write(corpus[i]+","+str(float(vectors_[i][0]))+","+str(float(vectors_[i][1])) +'\n')
                 f.close
             plt.rcParams['font.sans-serif'] = ['FangSong']
             plt.scatter(vectors_[:,0],vectors_[:, 1],s = 3 , c=y_)   #将点画在图上
